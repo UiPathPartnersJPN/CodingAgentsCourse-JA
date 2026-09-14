@@ -1,0 +1,96 @@
+site_name: UiPath Coding Agents ワークショップ
+# 公開 URL は GitHub Actions が SITE_URL 環境変数として渡します（.github/workflows/deploy.yml）。
+# ローカルビルド時は既定値が使われるため、手で書き換える必要はありません。
+site_url: !ENV [SITE_URL, 'http://127.0.0.1:8000/']
+site_description: コーディングエージェントを使って UiPath のエージェントと Maestro オーケストレーションを構築する、実践型ハンズオン教材（日本語版）
+site_author: Sergey Shumilov
+
+# hello-world-agent/ was merged into getting-started/. The old folder is excluded here
+# (the sandbox mount couldn't delete it) — remove the folder locally when convenient.
+exclude_docs: |
+  hello-world-agent/
+  getting-started/4-run-and-review.md
+
+theme:
+  name: material
+  language: ja
+  logo: assets/images/Partner Success Logo.png
+  favicon: assets/images/favicon.png
+  font:
+    text: Inter
+  palette:
+    scheme: default
+    primary: deep orange
+    accent: orange
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.integrate
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.tabs.link
+
+hooks:
+  - hooks/split_cols.py
+
+# main.py provides environment variables (training_url, training_tenant, env_label)
+# driven by the COURSE_ENV env var (staging | prod). See main.py.
+plugins:
+  # 日本語の検索には lunr-languages の日本語トークナイザ（TinySegmenter）を使用します。
+  - search:
+      lang:
+        - ja
+        - en
+      separator: '[\s​\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - macros:
+      module_name: main
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+# Published navigation only. Work-in-progress pages live in mkdocs.local.yml.
+nav:
+  - ホーム: index.md
+  - コーディングエージェント入門:
+    - 概要: getting-started/index.md
+    - 1. CLI とスキルのインストール: getting-started/1-install-the-cli-and-skills.md
+    - 2. CLI を使ってみる: getting-started/2-practice-the-cli.md
+    - 3. 初めてのエージェントを作る: getting-started/3-build-your-first-agent.md
+    - 完了です！: getting-started/you-did-it.md
+  - ローン審査（Loan Application Underwriting）:
+    - アジェンダ: loan-application-underwriting/agenda.md
+    - コーディングエージェントとは？: loan-application-underwriting/what-is-a-coding-agent.md
+    - 概要: loan-application-underwriting/index.md
+    - インストールガイド: loan-application-underwriting/installation-guides.md
+    - UiPath スキルのインストール: loan-application-underwriting/install-skills.md
+    - 1. AI による与信審査: loan-application-underwriting/1-underwriting-agent.md
+    - 2. ローン担当者レビュー用ダッシュボード: loan-application-underwriting/2-loan-officer-app.md
+    - 3. Maestro Flow によるオーケストレーション: loan-application-underwriting/3-maestro-flow.md
+    - 4. 申込受付とデータ補完: loan-application-underwriting/4-intake-enrichment.md
+    - 完了です！: loan-application-underwriting/you-did-it.md
+  - 次のステップ: next-steps.md
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
+
+extra:
+  generator: false
