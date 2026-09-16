@@ -1,0 +1,1434 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="コーディングエージェントを使って UiPath のエージェントと Maestro オーケストレーションを構築する、実践型ハンズオン教材（日本語版）">
+      
+      
+        <meta name="author" content="Sergey Shumilov">
+      
+      
+        <link rel="canonical" href="https://uipathpartnersjpn.github.io/CodingAgentsCourse-JA/getting-started/3-build-your-first-agent/">
+      
+      
+        <link rel="prev" href="../2-practice-the-cli/">
+      
+      
+        <link rel="next" href="../you-did-it/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>3. 初めてのエージェントを作る - UiPath Coding Agents ワークショップ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="UiPath Coding Agents ワークショップ" class="md-header__button md-logo" aria-label="UiPath Coding Agents ワークショップ" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UiPath Coding Agents ワークショップ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. 初めてのエージェントを作る
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  コーディングエージェント入門
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../loan-application-underwriting/agenda/" class="md-tabs__link">
+          
+  
+  
+  ローン審査（Loan Application Underwriting）
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../next-steps/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  次のステップ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="UiPath Coding Agents ワークショップ" class="md-nav__button md-logo" aria-label="UiPath Coding Agents ワークショップ" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    UiPath Coding Agents ワークショップ
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    コーディングエージェント入門
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    コーディングエージェント入門
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-install-the-cli-and-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. CLI とスキルのインストール
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-practice-the-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. CLI を使ってみる
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. 初めてのエージェントを作る
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. 初めてのエージェントを作る
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ゴール
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        何を作るのか
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        手順
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="手順">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 作業フォルダーを用意する
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. コーディングエージェントを開いて始める
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. スキャフォールドの様子を見る
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-studio-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. アップロードして Studio Web で開く
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. サンプルの請求書を実行する
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完了です！
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ローン審査（Loan Application Underwriting）
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ローン審査（Loan Application Underwriting）
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    アジェンダ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/what-is-a-coding-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    コーディングエージェントとは？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/installation-guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    インストールガイド
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/install-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UiPath スキルのインストール
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/1-underwriting-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. AI による与信審査
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/2-loan-officer-app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. ローン担当者レビュー用ダッシュボード
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/3-maestro-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Maestro Flow によるオーケストレーション
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/4-intake-enrichment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. 申込受付とデータ補完
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完了です！
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../next-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    次のステップ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">初めてのエージェントを作る<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition tip">
+<p class="admonition-title">このレッスンの進め方</p>
+<ol>
+<li>サンプルファイルを入れた作業フォルダーを用意します。</li>
+<li>UiPath のエージェントスキルを使って、<strong>Claude Code</strong> にシンプルなエージェントを生成してもらいます。</li>
+<li>ソリューションのスキャフォールド、スキーマの設定、検証までの流れを観察します。</li>
+<li><strong>Studio Web</strong> に公開して実行し、結果を確認します。</li>
+</ol>
+</div>
+<h2 id="_2">ゴール<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>このレッスンの目的は、気の利いた何かを作ることではありません。これ以降すべてのエージェントで使うことになる <strong>「構築して公開する」ワークフロー</strong> を身につけることです。Claude Code で小さなローコードエージェントを生成し、ソリューションがどのようにスキャフォールドされるのかを見て、実行できる状態まで持っていきます。エージェント自体はあえてシンプルにしてあります。焦点を当てたいのは「説明する → 生成する → 検証する → 公開する → 実行する」というループそのものだからです。</p>
+<h2 id="_3">何を作るのか<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p><strong>保険金請求の受理可否（Claims Eligibility）チェック</strong> です。請求（FNOL）の PDF と、そこで参照されている保険証券が与えられると、エージェントは 5 つの簡易なしきい値チェックを順番に実行し、最初のハードな不合格が出た時点で停止します。</p>
+<ol>
+<li><strong>保険証券のステータス</strong> — 証券は Current / Paid か（Lapsed / Cancelled / Expired ではないか）？</li>
+<li><strong>本人確認</strong> — 請求者は証券の記名被保険者と一致するか？</li>
+<li><strong>住所</strong> — 請求書と証券の住所は一致するか？</li>
+<li><strong>補償期間</strong> — 事故は証券の有効期間内に発生したか？</li>
+<li><strong>請求期限</strong> — 損害発生から 60 日以内に請求されているか？</li>
+</ol>
+<p>このエージェントは PDF をそのまま直接読み取ります。追加のセットアップは不要です。（以降の演習では、コンテキストやツール、構造化された抽出処理を備えた、より本格的なエージェントを構築します。）判定ロジックと出力の構造は下記のとおりで、いずれも Claude Code に貼り付けて使います。</p>
+<h2 id="_4">手順<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 作業フォルダーを用意する<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>空のフォルダーを作成し、そこにサンプルの請求書 PDF と保険証券 PDF を追加します（PDF は後述のサンプルからダウンロードしてください）。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>first-agent
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>first-agent
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mkdir<span class="w"> </span>samples
+</code></pre></div>
+<details>
+<summary>任意の手順: 自分の規約を定義する（AGENTS.md）</summary>
+<p>本格的に作り始める前に、命名規則・構造・「<em>ワークフローは小さく保つ。すべてを 1 つのフォルダーに詰め込まない</em>」といったルールを書いた小さなファイルをフォルダーに置いておきましょう。</p>
+<ul>
+<li>コーディングエージェントはこのファイルを自動的に読み、新しいセッションのたびに従ってくれます。</li>
+<li>プロンプトだけがすべてではありません。この Markdown ファイルはエージェントの方向づけに役立ち、セッションをまたいでも、エージェントを変えても、出力の一貫性を保てます。</li>
+<li>現時点でファイル名は統一されていません（<strong><code>CLAUDE.md</code></strong> / <strong><code>AGENTS.md</code></strong> / <strong><code>GEMINI.md</code></strong> など）。複数のエージェントを使う予定なら、実体のファイルを 1 つだけ置き、名前が異なるエージェント向けにはシンボリックリンクを張るのがベストプラクティスです。</li>
+<li>以下は出発点となるサンプルです。必要に応じて拡張してください。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gh"># 新しいプロジェクトを作るとき</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">-</span><span class="w"> </span>このワークスペースフォルダーで何かを作るよう依頼されたら、ワークスペース直下で作業せず、新しいプロジェクトフォルダー（短く、小文字、ハイフン区切り）を作成すること。
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">-</span><span class="w"> </span>既存のリポジトリの内側でない限り、`git init` で初期化すること。
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">-</span><span class="w"> </span>本格的な実装に入る前に、プロジェクト単位の <span class="sb">`AGENTS.md`</span>（このファイルのようなもの）を追加し、以降のセッションでも同じ振る舞いが保たれるようにすること。
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">-</span><span class="w"> </span>実装・検証・ファイル編集はすべて、その新しいプロジェクトフォルダーの中で続けること。
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="gh"># UiPath プロジェクト</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">-</span><span class="w"> </span>依頼に UiPath、RPA、Orchestrator、Maestro、Studio Web、`.xaml`、`.flow`、`.bpmn`、コンテキストグラウンディング、キュー、アセット、ロボット、ジョブ、トリガー、`uip` が含まれる場合は、インストール済みの UiPath エージェントスキルを適宜使用すること。
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">-</span><span class="w"> </span>セットアップ、検証、ビルド、パッケージング、実行、プラットフォーム操作には uip CLI を優先して使うこと。
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">-</span><span class="w"> </span>UiPath Cloud / Orchestrator のリソース（パッケージ、フォルダー、キューアイテムなど）を公開・デプロイ・削除・変更する前には、必ず確認を取ること。
+</code></pre></div>
+</details>
+<h3 id="2">2. コーディングエージェントを開いて始める<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>下記の請求書ファイルと保険証券ファイルのペアを、先ほど作成したフォルダー内の "samples" フォルダーにダウンロードしてください。各請求書は証券番号で対応する証券を参照しており、必ず <strong>対応する</strong> 証券と組み合わせて実行する必要があります。入力ドキュメントにも軽く目を通しておきましょう。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">請求書（Claim）</th>
+<th style="text-align: left;">保険証券（Policy）</th>
+<th style="text-align: left;">シナリオ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="../assets/claim-samples/CLM-2026-357861-claim.pdf">CLM-2026-357861-claim.pdf</a></td>
+<td style="text-align: left;"><a href="../assets/claim-samples/HO-5534416561.pdf">HO-5534416561.pdf</a></td>
+<td style="text-align: left;">ムンバイ（INR）— 水濡れ損害、Rajesh Kumar Sharma</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../assets/claim-samples/CLM-2026-896147-claim.pdf">CLM-2026-896147-claim.pdf</a></td>
+<td style="text-align: left;"><a href="../assets/claim-samples/HO-3883873532.pdf">HO-3883873532.pdf</a></td>
+<td style="text-align: left;">メルボルン（AUD）— 火災損害、Mei Lin Tan</td>
+</tr>
+</tbody>
+</table>
+<p>そのフォルダーでコーディングエージェントを開き、以下の指示を与えてください。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>UiPath のエージェントスキルを使って、"claims-eligibility-agent" という名前のローコードエージェントを生成してください。このエージェントは、請求書（claim）と保険証券（policy）の 2 つの PDF ファイルを入力として受け取ります。両方の PDF を読み取り、保険証券に照らして請求内容を検証します。
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="hll">入力:
+</span><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="hll">- in_ClaimPDF — 請求者が提出した事故受付通知（FNOL: First Notice of Loss）の請求フォーム（PDF）。
+</span><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="hll">- in_PolicyPDF — その請求が参照している住宅総合保険の保険証券（PDF）。
+</span><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>エージェントが 2 つの入力ドキュメント間で確認すべき項目:
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>1. 保険証券ステータスの確認（Policy Status Check）。保険証券上の Payment Status を探します。許容されるステータスは
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>   "Current" と "Paid" です。"Lapsed"、"Cancelled"、"Expired" の場合はこのチェックは不合格とします。
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>2. 本人確認（Identity Verification）。請求書上の Claimant Name と、保険証券上の Named Insured を比較します。
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>   軽微な差異（愛称、ミドルネーム、軽微なスペルの揺れ）は許容します。明らかに別人を指している場合は
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>   このチェックは不合格とします。
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>3. 物件住所の一致確認（Property Address Match）。請求書と保険証券に記載された物件住所を比較します。
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>   表記の揺れ（例: "St." と "Street"）は正規化して比較します。異なる場合はこのチェックは不合格とします。
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>   本演習には独立した事故報告書が存在しないため、report_address には
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>   "N/A — no incident report in this exercise" を設定してください。
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>4. 補償期間の確認（Coverage Period Check）。Incident Date が保険証券の Effective Date 以降、かつ
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>   Expiration Date 以前であることを確認します。この期間外であればこのチェックは不合格とします。
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>5. 請求期限の確認（Filing Deadline Check）。Incident Date と Date of Submission の間の暦日数を計算します。
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>   60 日を超えている場合は、請求書に遅延理由の説明があるかどうかを確認します。説明がなければ不合格とします。
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>エージェントは必ず以下の構造に一致する出力を返す必要があります。この出力は後続のアプリやエージェントで利用されます:
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="hll">{
+</span><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="hll">  "out_isEligible": "boolean — 請求が審査の対象として受理できるかどうか",
+</span><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="hll">  "out_EligibilityAnalysisSummary": "string — 判定理由の簡潔でわかりやすい説明",
+</span><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="hll">  "out_EligibilityChecksJSON": {
+</span><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="hll">    "claim_id": "string",
+</span><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="hll">    "policy_number": "string",
+</span><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="hll">    "escalate": "boolean — この請求に人によるさらなる確認が必要かどうか",
+</span><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="hll">    "checks": {
+</span><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="hll">      "policy_status": {
+</span><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="hll">        "result": "pass | fail",
+</span><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="hll">        "detail": "string"
+</span><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="hll">      },
+</span><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="hll">      "identity_match": {
+</span><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="hll">        "result": "pass | fail",
+</span><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="hll">        "claimant_name": "string",
+</span><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="hll">        "policyholder_name": "string",
+</span><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="hll">        "detail": "string"
+</span><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="hll">      },
+</span><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="hll">      "address_match": {
+</span><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="hll">        "result": "pass | fail",
+</span><a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="hll">        "claim_address": "string",
+</span><a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="hll">        "policy_address": "string",
+</span><a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="hll">        "detail": "string"
+</span><a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="hll">      },
+</span><a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a><span class="hll">      "coverage_period": {
+</span><a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="hll">        "result": "pass | fail",
+</span><a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="hll">        "incident_date": "string",
+</span><a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="hll">        "effective_date": "string",
+</span><a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a><span class="hll">        "expiration_date": "string",
+</span><a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a><span class="hll">        "detail": "string"
+</span><a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a><span class="hll">      },
+</span><a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a><span class="hll">      "filing_deadline": {
+</span><a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a><span class="hll">        "result": "pass | fail ",
+</span><a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a><span class="hll">        "incident_date": "string",
+</span><a id="__codelineno-2-58" name="__codelineno-2-58" href="#__codelineno-2-58"></a><span class="hll">        "claim_date": "string",
+</span><a id="__codelineno-2-59" name="__codelineno-2-59" href="#__codelineno-2-59"></a><span class="hll">        "days_elapsed": "number",
+</span><a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a><span class="hll">        "detail": "string"
+</span><a id="__codelineno-2-61" name="__codelineno-2-61" href="#__codelineno-2-61"></a><span class="hll">      }
+</span><a id="__codelineno-2-62" name="__codelineno-2-62" href="#__codelineno-2-62"></a><span class="hll">    }
+</span><a id="__codelineno-2-63" name="__codelineno-2-63" href="#__codelineno-2-63"></a><span class="hll">  }
+</span><a id="__codelineno-2-64" name="__codelineno-2-64" href="#__codelineno-2-64"></a><span class="hll">}
+</span><a id="__codelineno-2-65" name="__codelineno-2-65" href="#__codelineno-2-65"></a>
+<a id="__codelineno-2-66" name="__codelineno-2-66" href="#__codelineno-2-66"></a>
+<a id="__codelineno-2-67" name="__codelineno-2-67" href="#__codelineno-2-67"></a>- すべてのチェックが合格 → out_isEligible = true、それ以外は false
+<a id="__codelineno-2-68" name="__codelineno-2-68" href="#__codelineno-2-68"></a>- 問題が「遅延提出だが正当な理由がある」場合のみ → out_isEligible = true、"escalate" = true
+<a id="__codelineno-2-69" name="__codelineno-2-69" href="#__codelineno-2-69"></a>- ドキュメントに明示されていない情報をエージェントが推測してはならない旨を、プロンプト内で明確に記載してください。
+<a id="__codelineno-2-70" name="__codelineno-2-70" href="#__codelineno-2-70"></a>- これは物件損害に関する FNOL / 保険金請求の受理可否プロセスです。この業務で一般的に考慮される観点と業界のベストプラクティスを踏まえたプロンプトを書いてください。
+<a id="__codelineno-2-71" name="__codelineno-2-71" href="#__codelineno-2-71"></a>
+<a id="__codelineno-2-72" name="__codelineno-2-72" href="#__codelineno-2-72"></a>エージェントが処理するサンプルドキュメントが samples サブフォルダーにいくつか置かれています。
+</code></pre></div>
+<h3 id="3">3. スキャフォールドの様子を見る<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>Claude Code は、おおむね次の順序で作業を進めます（各ステップを都度承認してください）。</p>
+<ul>
+<li><strong>ソリューション</strong> を作成し、その中にエージェントを初期化する</li>
+<li>エージェントプロジェクトをソリューションに追加する</li>
+<li><strong>システムプロンプト</strong> を記述し、<strong>入出力スキーマ</strong> を設定する（ファイル入力 2 つ、出力 3 つ）</li>
+<li><strong>validate</strong> を実行して、その構成が Studio Web でサポートされていることを確認する</li>
+</ul>
+<details>
+<summary>実際の出力例</summary>
+<ul>
+<li>これは UiPath のローコードエージェントを作成するタスクなので、uipath-agents スキルを使います。エージェントのファイルを作る前に、<strong>スキルの手順</strong> と既存プロジェクトの構成を確認します。</li>
+<li>依頼には明示的に「ローコード」とあるため、agent.json ベースの <strong>Agent Builder プロジェクト</strong> として扱います。既存の構造を壊さないよう、すでにエージェントやソリューションのスキャフォールドがあるかを確認しています。</li>
+<li>ワークスペースには既存のプロジェクトスキャフォールドはなく、サンプル PDF だけがあります。生成するファイルが UiPath の想定するスキーマとライフサイクルに沿うよう、次にローコードエージェントのガイダンスを読みます。</li>
+<li>ローコードのワークフローでは、スキャフォールドの前にローカルの uip solution コマンドを確認する必要があります。新しいバージョンの CLI で solution new が solution init に改称されたためです。いまその確認を行い、サポートされているコマンドでプロジェクトを作成します。</li>
+<li>実行したコマンド: <code>$ uip solution init --output json</code></li>
+<li>この CLI は <code>uip solution init</code> に対応しているため、現行のライフサイクルを使います。スキャフォールドしたエージェントを書く前に、ローコードの JSON、プロンプト、ファイル添付、検証に関するリファレンスを読みます。</li>
+<li>ここで重要な制約は、添付ファイル入力はプロンプト上ではメタデータしか参照できないという点です。UiPath 組み込みの Analyze Files ツールを追加し、受理可否を判断する前に両方の PDF に対して必ずこのツールを呼び出すよう、エージェントに明示的に指示します。</li>
+<li>これは入力から出力を導く受理可否の判断なので、autonomous エージェントのバリアントを使います。スキャフォールドしてファイルを修正する前に、autonomous 固有のルールを確認します。</li>
+<li>スキャフォールドのデフォルトモデルをそのまま使うべきではないので、テナントのモデル一覧を確認します。</li>
+<li>エージェントのプロンプトが探すべきフィールド名を正しく指定し、想定される文書の言い回しに対応できるよう、いまサンプルの請求書・保険証券のテキストを読んでいます。</li>
+<li>サンプルを見ると、必要なフィールドはすべて明示されています: 請求番号、提出日、請求者、証券番号、物件住所、事故日、保険料の支払いステータス、記名被保険者、保険期間、対象物件です。これから、ソリューションと、claims-eligibility という名前のスタンドアロンな autonomous ローコードエージェントをスキャフォールドします。</li>
+<li>ソリューションのスキャフォールドを作成できました。プロジェクトがソリューションのマニフェストに登録されるよう、その中にローコードエージェントのプロジェクトを追加します。</li>
+<li>実行したコマンド: <code>$ uip agent init claims-eligibility-solution/claims-eligibility --output json</code></li>
+<li>エージェントのスキャフォールドが正しく登録されました。生成された JSON ファイルを修正する前に内容を読み、サポートされているソースファイルだけを変更して、派生ファイルは refresh に再生成させるようにします。</li>
+<li>ソース側に 2 か所の変更を加えます。スキャフォールドのプロンプトとスキーマを受理可否チェックの仕様に置き換えることと、Analyze Files 組み込みツールのリソースを追加することです。そのあとで uip agent refresh と uip agent validate を実行し、派生ファイルを手書きせず CLI に再生成させます。</li>
+<li>いまプロンプト、添付ファイルのスキーマ、型付きの出力仕様、組み込みツールの定義を適用しています。プロンプトでは、ドキュメントの記載を超えた推測を明確に禁止し、最終的な補償の可否判断ではなく受理可否のスクリーニングに範囲を限定しています。</li>
+<li>ソースファイルの修正が完了しました。まず JSON のパースチェックを行い、そのあとで UiPath の refresh / validation を実行して、entry-points.json と bindings_v2.json を手書きではなく生成させます。</li>
+<li>JSON のパースが通りました。次に uip agent refresh を実行します。</li>
+<li>スキーマは完全に一致しています。もう一度 CLI のマイグレーションを実行します。</li>
+<li>マイグレーションが完了し、ビルダー用の成果物が生成されました。最終的なプロジェクト状態を確認するため、読み取り専用の検証を実行します。</li>
+<li>実行したコマンド: <code>$ uip agent validate claims-eligibility-solution/claims-eligibility --output json</code></li>
+<li>検証に成功しました。作成したものと、PDF 添付を使ったテストに関する注意点を正確に報告できるよう、最後にファイルとステータスを確認します。</li>
+<li>
+<p>プロジェクトはローカルで有効であり、生成された .agent-builder ファイルも存在します。ビルド出力に Analyze Files リソースが確実に含まれるよう、生成されたバインディングを一度確認します。</p>
+</li>
+<li>
+<p>UiPath のローコード autonomous エージェント claims-eligibility を実装しました。</p>
+</li>
+</ul>
+<p>作成したソリューションとエージェントのファイル:</p>
+<ul>
+<li>claims-eligibility-solution/claims-eligibility/<strong>agent.json</strong></li>
+<li>claims-eligibility-solution/claims-eligibility/<strong>resources/AnalyzeFiles/resource.json</strong></li>
+<li>claims-eligibility-solution/claims-eligibility/<strong>entry-points.json</strong></li>
+</ul>
+<p>設定内容:</p>
+<ul>
+<li>入力: in_ClaimPDF、in_PolicyPDF をジョブ添付の PDF 入力として設定</li>
+<li>toolType: "analyze-attachments" を使用した組み込みの Analyze Files ツール</li>
+<li>依頼どおりの出力スキーマ</li>
+<li>out_isEligible、out_EligibilityAnalysisSummary、ネストされた out_EligibilityChecksJSON</li>
+<li>保険証券ステータス、本人確認、住所、補償期間、請求期限、根拠のない推測の禁止、物件保険金請求の受理可否に関するベストプラクティスを網羅したシステムプロンプト</li>
+</ul>
+</details>
+<h3 id="4-studio-web">4. アップロードして Studio Web で開く<a class="headerlink" href="#4-studio-web" title="Permanent link">&para;</a></h3>
+<p>エージェントのビルドとローカル検証が完了しました。続けて次のように尋ねます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>いいですね！ このエージェントを Studio Web で実行するには、次に何をすればよいですか？
+</code></pre></div>
+<p>エージェントは次のように提案してくれます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>以下のコマンドでソリューションをアップロードしてください:
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>   $ uip solution upload claims-eligibility-solution --output json
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>これで DesignerUrl が返ってくるはずです。
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>その URL を Studio Web で開き、claims-eligibility エージェントを開いて、run / test の画面で次の値を指定してください:
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>   in_ClaimPDF: samples/ にある請求書 PDF のいずれか
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>   in_PolicyPDF: それに対応する保険証券 PDF
+</code></pre></div>
+<p>コマンドを実行し、返ってきた DesignerURL を開いてみましょう。</p>
+<p><img alt="エージェントをスキャフォールドする Claude Code: ソリューションを作成し、エージェントを初期化し、スキーマを設定したところ" class="screenshot" src="../3-build-your-first-agent.images/fresh-from-oven.png" /></p>
+<p>請求書とその保険証券の組み合わせで実行し、構造化された判定結果を読み取ってみてください。ここまでで、構築・公開・実行という一連のサイクルを 1 周したことになります。以降の演習で扱う、より本格的なエージェントに進む準備が整いました。</p>
+<h3 id="5">5. サンプルの請求書を実行する<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>Studio Web で <strong>Debug</strong> をクリックし、2 つのファイル入力を指定してエージェントを実行します。</p>
+<ol>
+<li><strong>in_ClaimPDF</strong> に <code>CLM-2026-896147-claim.pdf</code> を指定します。</li>
+<li><strong>in_PolicyPDF</strong> に <code>HO-3883873532.pdf</code> を指定します。</li>
+<li><strong>Run</strong>（または <strong>Save &amp; Debug</strong>）を選択します。</li>
+</ol>
+<p>実行が完了したら出力を開きます。スキーマで定義した 3 つのフィールド（<code>out_isEligible</code>、<code>out_EligibilityChecksJSON</code>、<code>out_EligibilityAnalysisSummary</code>）が確認できます。</p>
+<p>請求 <code>CLM-2026-896147</code> の場合、エージェントは <strong>受理不可（ineligible — deny）</strong> と判断するはずです。この請求は 60 日の期限を大きく過ぎてから提出されているためです。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"out_isEligible"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"out_EligibilityAnalysisSummary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"請求 CLM-2026-896147 は審査の対象として受理できません。5 つの受理可否チェックのうち 4 つは合格しています。保険証券は有効かつ保険料が全額支払済みであり、請求者名は記名被保険者と一致し、物件住所も一致しています。また事故日 14/04/2026 は保険証券の満了日にあたりますが、満了日当日は補償期間に含むものとして扱っています。一方で請求期限のチェックは不合格です。この請求は事故日から 83 暦日が経過してから提出されており、保険証券に定められた 60 日以内という提出要件を超えています。さらに、請求フォームのどこにも遅延の理由が記載されていません。遅延提出に正当な理由が示されていないため、この請求は受理できません。"</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"out_EligibilityChecksJSON"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">"claim_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CLM-2026-896147"</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">"policy_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HO-3883873532"</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">"escalate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">      </span><span class="nt">"policy_status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"保険証券の支払いステータスは 'Current - Paid in Full' と明記されています。"</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">      </span><span class="nt">"identity_match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">        </span><span class="nt">"claimant_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mei Lin Tan"</span><span class="p">,</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">        </span><span class="nt">"policyholder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mei Lin Tan"</span><span class="p">,</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">        </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"請求者名 'Mei Lin Tan' は記名被保険者 'Mei Lin Tan' と完全に一致しています。"</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">      </span><span class="nt">"address_match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">        </span><span class="nt">"claim_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4/16 Chapel Street, St Kilda, VIC 3182"</span><span class="p">,</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">        </span><span class="nt">"policy_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4/16 Chapel Street, St Kilda, VIC 3182"</span><span class="p">,</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">        </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"請求書の物件住所 '4/16 Chapel Street, St Kilda, VIC 3182' は、保険証券に記載された対象物件の住所と完全に一致しています。report_address=N/A - no incident report in this exercise。"</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">      </span><span class="nt">"coverage_period"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">        </span><span class="nt">"incident_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14/04/2026"</span><span class="p">,</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">        </span><span class="nt">"effective_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14/04/2025"</span><span class="p">,</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">        </span><span class="nt">"expiration_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14/04/2026"</span><span class="p">,</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">        </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"事故日 14/04/2026 は保険証券の満了日にあたり、満了日当日は補償期間に含むものとして扱います。事故日は 14/04/2025 から 14/04/2026 までの補償期間内です。"</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">      </span><span class="nt">"filing_deadline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fail"</span><span class="p">,</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">        </span><span class="nt">"incident_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14/04/2026"</span><span class="p">,</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="w">        </span><span class="nt">"claim_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"06/07/2026"</span><span class="p">,</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">        </span><span class="nt">"days_elapsed"</span><span class="p">:</span><span class="w"> </span><span class="mi">83</span><span class="p">,</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">        </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"事故日（14/04/2026）から提出日（06/07/2026）までに 83 暦日が経過しており、保険証券の Section III, Condition 1 に定められた 60 日の請求期限を超えています。請求フォームには遅延の理由が記載されていません。正当な理由のない遅延提出のため、この請求は受理できません。"</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="p">}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">文言は毎回変わります</p>
+<p>LLM を使っているため、<code>detail</code> や要約のテキストは生成されるものであり、一字一句同じにはなりません。一致しているべきなのは構造と、各チェックの <code>result</code> です。</p>
+</div>
+<p>ほかの請求サンプルでも試してみてください。</p>
+<p>これで完了です。Claude Code でエージェントを構築し、公開し、実行しました。最初の 1 周が終わり、これ以降のすべての土台ができました。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="フッター" >
+        
+          
+          <a href="../2-practice-the-cli/" class="md-footer__link md-footer__link--prev" aria-label="前: 2. CLI を使ってみる">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                前
+              </span>
+              <div class="md-ellipsis">
+                2. CLI を使ってみる
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../you-did-it/" class="md-footer__link md-footer__link--next" aria-label="次: 完了です！">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                次
+              </span>
+              <div class="md-ellipsis">
+                完了です！
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

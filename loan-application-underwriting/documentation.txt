@@ -1,0 +1,17 @@
+# Documentation References — Loan Application Underwriting
+
+Add a link here for each new set of screenshots you upload to this exercise.
+The metadata extraction script reads this file and embeds the linked documentation
+as context for image analysis. New links are fetched and embedded automatically
+on the next run; previously embedded links are not re-fetched.
+
+## Links
+
+<!-- Add URLs below, one per line, prefixed with - -->
+- https://docs.uipath.com/studio/standalone/2024.10/user-guide/coded-automations
+- https://docs.uipath.com/studio/standalone/2024.10/user-guide/coded-automations-workflow
+- https://docs.uipath.com/agent-builder/automation-cloud/latest/user-guide/about-coded-agents
+- https://docs.uipath.com/apps/automation-cloud/latest/user-guide/coded-apps
+- https://docs.uipath.com/data-fabric/automation-cloud/latest/user-guide/introduction-to-data-fabric
+- https://docs.uipath.com/maestro/automation-cloud/latest/user-guide/about-maestro
+- https://docs.uipath.com/maestro/automation-cloud/latest/user-guide/bpmn-process-orchestration

@@ -1,0 +1,1371 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="コーディングエージェントを使って UiPath のエージェントと Maestro オーケストレーションを構築する、実践型ハンズオン教材（日本語版）">
+      
+      
+        <meta name="author" content="Sergey Shumilov">
+      
+      
+        <link rel="canonical" href="https://uipathpartnersjpn.github.io/CodingAgentsCourse-JA/loan-application-underwriting/what-is-a-coding-agent/">
+      
+      
+        <link rel="prev" href="../agenda/">
+      
+      
+        <link rel="next" href="../">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>コーディングエージェントとは？ - UiPath Coding Agents ワークショップ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="UiPath Coding Agents ワークショップ" class="md-header__button md-logo" aria-label="UiPath Coding Agents ワークショップ" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UiPath Coding Agents ワークショップ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              コーディングエージェントとは？
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+  コーディングエージェント入門
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../agenda/" class="md-tabs__link">
+          
+  
+  
+  ローン審査（Loan Application Underwriting）
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../next-steps/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  次のステップ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="UiPath Coding Agents ワークショップ" class="md-nav__button md-logo" aria-label="UiPath Coding Agents ワークショップ" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    UiPath Coding Agents ワークショップ
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    コーディングエージェント入門
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    コーディングエージェント入門
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/1-install-the-cli-and-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. CLI とスキルのインストール
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/2-practice-the-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. CLI を使ってみる
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/3-build-your-first-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. 初めてのエージェントを作る
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完了です！
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ローン審査（Loan Application Underwriting）
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ローン審査（Loan Application Underwriting）
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    アジェンダ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    コーディングエージェントとは？
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    コーディングエージェントとは？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-mental-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全体像（The Mental Model）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ツールの実際
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        スキルの実際
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="スキルの実際">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skillmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SKILL.md ファイルの中身
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uipath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        この構図における UiPath の位置づけ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uipath_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UiPath スキルカタログ
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation-guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    インストールガイド
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UiPath スキルのインストール
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-underwriting-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. AI による与信審査
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-loan-officer-app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. ローン担当者レビュー用ダッシュボード
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3-maestro-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Maestro Flow によるオーケストレーション
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4-intake-enrichment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. 申込受付とデータ補完
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完了です！
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../next-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    次のステップ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">コーディングエージェントとは？<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>コーディングエージェントの仕組みと、UiPath の自動化開発においてなぜ有用なのかを学びます。</p>
+<p>コーディングエージェントとは、コードを読み、書き、その意味を推論する AI アシスタントです。単なる入力補完ではありません。次の 1 行を提案するのではなく、平易な言葉で書かれたゴールを理解し、コードベースを調べ、判断を下し、動作するコンポーネントをまるごと生成します。主導権はあなたにあります。生成物をレビューし、修正を指示し、納得できるまで反復します。</p>
+<p>現在はいくつものコーディングエージェントが利用でき、それぞれに強みがあります。</p>
+<ul>
+<li><strong>Claude Code</strong> — Anthropic の CLI ベースのエージェント。ターミナル上で動作し、ファイルシステムと深く統合されています。本演習で使用するのはこれです。</li>
+<li><strong>Codex CLI</strong> — OpenAI のコマンドライン型コーディングエージェント。同じくターミナル中心のアプローチです。</li>
+<li><strong>Cursor</strong> — AI を中心に設計された IDE。エディタとの統合が密で、インライン生成や複数ファイルにまたがるコンテキストに強みがあります。</li>
+<li><strong>Gemini CLI</strong> — Google のターミナル型エージェント。推論能力とロングコンテキストに強みがあります。</li>
+<li><strong>GitHub Copilot Agent</strong> — VS Code と JetBrains に組み込まれ、エディタ内で完結するワークフローに適しています。</li>
+</ul>
+<p>コーディングエージェントが UiPath の開発において特に強力になるのは、スキルのレイヤーがあるからです。UiPath のアクティビティ、API、プロジェクトの作法といったドメイン知識を読み込ませることで、エージェントは汎用的なひな型ではなく、本番で使える自動化コードを生成できるようになります。本演習で使う UiPath スキルは、まさにそのためのものです。</p>
+<h2 id="the-mental-model">全体像（The Mental Model）<a class="headerlink" href="#the-mental-model" title="Permanent link">&para;</a></h2>
+<p>どのコーディングエージェントにも、共通して次の 5 つの概念が登場します。</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tools（ツール）</strong></td>
+<td>エージェントが実行できる組み込みのアクション。ファイルを読む、bash コマンドを実行する、Web を検索する、コードを編集する、など。</td>
+</tr>
+<tr>
+<td><strong>Skills（スキル）</strong></td>
+<td>該当するタスクを見つけたときにエージェントが読み込む、ドメイン知識のバンドル。特定の作業に対する「手順書」のようなものです。</td>
+</tr>
+<tr>
+<td><strong>Commands（コマンド）</strong></td>
+<td>自分で入力する手動のショートカット（<code>/commit</code>、<code>/test</code>、<code>/deploy</code> など）。エージェントではなく、あなたが起動します。</td>
+</tr>
+<tr>
+<td><strong>Hooks（フック）</strong></td>
+<td>ライフサイクルのイベント（編集前、コミット後、セッション開始時など）で自動的に実行されます。ガードレールとして使われます。</td>
+</tr>
+<tr>
+<td><strong>Subagents（サブエージェント）</strong></td>
+<td>メインのエージェントが起動する専門のワーカー。複雑なタスクを並列化したり、切り離して処理したりするために使います。</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">プラグイン（Plugins）</p>
+<p>プラグインは、これらをまとめてパッケージ化したものです。コーディングエージェント向けの Marketplace アプリのようなものと考えてください。本演習で使う UiPath スキルもプラグインです。</p>
+</div>
+<h2 id="_2">ツールの実際<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Claude Code の組み込みツールは常に利用可能で、セットアップは不要です。</p>
+<table>
+<thead>
+<tr>
+<th>ツール</th>
+<th>機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Read</strong></td>
+<td>プロジェクト内の任意のファイルを読む</td>
+</tr>
+<tr>
+<td><strong>Edit / Write</strong></td>
+<td>ファイルを変更・作成する</td>
+</tr>
+<tr>
+<td><strong>Bash</strong></td>
+<td>シェルコマンドを実行する</td>
+</tr>
+<tr>
+<td><strong>Glob / Grep</strong></td>
+<td>コードベース全体を検索する</td>
+</tr>
+<tr>
+<td><strong>WebSearch / WebFetch</strong></td>
+<td>オンラインで情報を調べる</td>
+</tr>
+<tr>
+<td><strong>Task</strong></td>
+<td>サブエージェントを起動する</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">拡張ツール（MCP）</p>
+<p>MCP（Model Context Protocol）は、エージェント本体を変更することなく、コーディングエージェントに新しいツールを追加するための標準的な方法です。</p>
+<ul>
+<li><strong>GitHub MCP</strong> — Issue の閲覧、PR の作成</li>
+<li><strong>Atlassian MCP</strong> — Jira、Confluence</li>
+<li><strong>Slack MCP</strong> — チャンネルの閲覧、メッセージの投稿</li>
+<li><strong>カスタム UiPath MCP</strong> — Orchestrator や Maestro の呼び出し</li>
+</ul>
+</div>
+<h2 id="_3">スキルの実際<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>スキルは 1 つのフォルダーです。<code>.claude/skills/</code>（または同等の場所）に置かれ、中に <code>SKILL.md</code> が入っています。</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>自動的に検出される</strong></td>
+<td>エージェントは各 <code>SKILL.md</code> の description を読みます。あなたのプロンプトと合致したときに、必要に応じてスキル全体を読み込みます。</td>
+</tr>
+<tr>
+<td><strong>テキストだけではない</strong></td>
+<td>スキルには、リファレンス文書、コードパターン、補助スクリプト、さらにはエージェントが実行できるコンパイル済みバイナリまで同梱できます。</td>
+</tr>
+<tr>
+<td><strong>権限が限定される</strong></td>
+<td>スキルは、使用を許可されたツールを宣言します。Bash へのアクセスも細かく制御できます。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="skillmd">SKILL.md ファイルの中身<a class="headerlink" href="#skillmd" title="Permanent link">&para;</a></h3>
+<p>どのスキルも、1 つの <code>SKILL.md</code> ファイルを中心に構成されています。実際の例を見てみましょう。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nn">---</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uipath-coded-agents</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Scaffold, build, run, evaluate, and deploy UiPath coded agents...</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">allowed-tools</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">Read</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Edit</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Bash(uip</span><span class="p p-Indicator">:</span><span class="err">*</span><span class="nv">)</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Bash(uipath</span><span class="p p-Indicator">:</span><span class="err">*</span><span class="nv">)</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nn">---</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># How to build a UiPath coded agent</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nt">When the user asks for a new coded agent</span><span class="p">:</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="l l-Scalar l-Scalar-Plain">1. Run `uipath new --framework langgraph`</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="l l-Scalar l-Scalar-Plain">2. Create agent.py following the pattern in references/</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="l l-Scalar l-Scalar-Plain">3. Add an evals/ folder with at least 5 test cases</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="l l-Scalar l-Scalar-Plain">4. Run `uipath eval` before deploying</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1">## References</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">references/sdk-methods.md</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">references/langgraph-patterns.md</span>
+</code></pre></div>
+<p>このファイルは 4 つのパートで構成されています。</p>
+<table>
+<thead>
+<tr>
+<th>パート</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>フロントマター</strong></td>
+<td>スキルの名前、説明、使用を許可するツールを宣言します。</td>
+</tr>
+<tr>
+<td><strong>ディスカバリープロンプト</strong></td>
+<td><code>description</code> フィールドが、あなたの依頼と照合される部分です。ここでマッチすることでスキルが自動的に読み込まれます。</td>
+</tr>
+<tr>
+<td><strong>手順（Instructions）</strong></td>
+<td>ファイルの本文。スキルが有効なときにエージェントが従う、ステップバイステップのプロンプトです。</td>
+</tr>
+<tr>
+<td><strong>リファレンス（References）</strong></td>
+<td>より深いコンテキスト（API ドキュメント、コードパターン、サンプルプロジェクトなど）としてエージェントが読めるファイルへのパスです。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="uipath">この構図における UiPath の位置づけ<a class="headerlink" href="#uipath" title="Permanent link">&para;</a></h2>
+<p>UiPath は Claude Code 向けのプラグインを提供しています。スキル、フック、リファレンスがまとめられており、UiPath 製品に関するドメイン知識を最初からエージェントに与えられます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>npm<span class="w"> </span>-g<span class="w"> </span>install<span class="w"> </span>@uipath/cli
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>uip<span class="w"> </span>skills<span class="w"> </span>install
+</code></pre></div>
+<p>プラグインには次の 3 つが含まれます。</p>
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>10 以上のスキル</strong></td>
+<td>UiPath の各製品に対応したドメイン知識: <code>uipath-agents</code>、<code>uipath-coded-apps</code>、<code>uipath-rpa</code>、<code>uipath-maestro-flow</code>、<code>uipath-platform</code>、<code>uipath-test</code> など。</td>
+</tr>
+<tr>
+<td><strong>1 つのサブエージェント</strong></td>
+<td><code>uipath-project-discovery-agent</code> — UiPath プロジェクトに最初に触れたときに自動実行され、エージェント向けのコンテキストを構築します。</td>
+</tr>
+<tr>
+<td><strong>フックとリファレンス</strong></td>
+<td>セッション開始時のガイド、アクティビティのドキュメント、安全な読み取り専用コマンドの許可リストなど。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="uipath_1">UiPath スキルカタログ<a class="headerlink" href="#uipath_1" title="Permanent link">&para;</a></h2>
+<p>このプラグインには、UiPath プラットフォームのあらゆる領域に対応するスキルが含まれています。本演習のラボでは、そのうち 3 つを使用します。</p>
+<table>
+<thead>
+<tr>
+<th>スキル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>uipath-agents</code></strong></td>
+<td>コーデッドエージェント（LangGraph、LlamaIndex、OpenAI Agents）のスキャフォールド、ビルド、実行、評価、デプロイ</td>
+</tr>
+<tr>
+<td><strong><code>uipath-rpa</code></strong></td>
+<td>Studio Desktop 向けの RPA ワークフロー（XAML）を、まず調査するアプローチで生成・編集</td>
+</tr>
+<tr>
+<td><strong><code>uipath-coded-apps</code></strong></td>
+<td>TypeScript + React アプリの Studio Web へのプッシュ／プル、Orchestrator へのパック＆パブリッシュ</td>
+</tr>
+<tr>
+<td><code>uipath-solution</code></td>
+<td>ソリューションの作成とデプロイ</td>
+</tr>
+<tr>
+<td><code>uipath-maestro-flow</code></td>
+<td>.flow JSON 形式を使った UiPath Flow プロジェクトの作成、検証、デバッグ</td>
+</tr>
+<tr>
+<td><code>uipath-platform</code></td>
+<td>認証、Orchestrator の管理、ソリューションのライフサイクル、Integration Service、CLI ツール</td>
+</tr>
+<tr>
+<td><code>uipath-test</code></td>
+<td>UiPath プロジェクト向けの自動テストスイートの生成、実行、保守</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">本演習で使うスキル</p>
+<p>太字の 3 つ（<code>uipath-agents</code>、<code>uipath-rpa</code>、<code>uipath-coded-apps</code>）が、ローン審査パイプラインの構築に使うスキルです。</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="フッター" >
+        
+          
+          <a href="../agenda/" class="md-footer__link md-footer__link--prev" aria-label="前: アジェンダ">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                前
+              </span>
+              <div class="md-ellipsis">
+                アジェンダ
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--next" aria-label="次: 概要">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                次
+              </span>
+              <div class="md-ellipsis">
+                概要
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

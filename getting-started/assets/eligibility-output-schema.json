@@ -1,0 +1,81 @@
+{
+  "type": "object",
+  "required": [
+    "out_isEligible",
+    "out_EligibilityChecksJSON",
+    "out_EligibilityAnalysisSummary"
+  ],
+  "properties": {
+    "out_isEligible": {
+      "type": "boolean",
+      "description": "Whether the claim is eligible for assessment."
+    },
+    "out_EligibilityChecksJSON": {
+      "type": "object",
+      "description": "The eligibility checks and their results.",
+      "properties": {
+        "claim_id": { "type": "string" },
+        "policy_number": { "type": "string" },
+        "eligible": { "type": "boolean" },
+        "checks": {
+          "type": "object",
+          "properties": {
+            "policy_status": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "string", "enum": ["pass", "fail"] },
+                "detail": { "type": "string" }
+              }
+            },
+            "identity_match": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "string", "enum": ["pass", "fail"] },
+                "claimant_name": { "type": "string" },
+                "policyholder_name": { "type": "string" },
+                "detail": { "type": "string" }
+              }
+            },
+            "address_match": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "string", "enum": ["pass", "fail"] },
+                "claim_address": { "type": "string" },
+                "policy_address": { "type": "string" },
+                "report_address": { "type": "string" },
+                "detail": { "type": "string" }
+              }
+            },
+            "coverage_period": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "string", "enum": ["pass", "fail"] },
+                "incident_date": { "type": "string" },
+                "effective_date": { "type": "string" },
+                "expiration_date": { "type": "string" },
+                "detail": { "type": "string" }
+              }
+            },
+            "filing_deadline": {
+              "type": "object",
+              "properties": {
+                "result": { "type": "string", "enum": ["pass", "fail", "late_with_justification"] },
+                "incident_date": { "type": "string" },
+                "claim_date": { "type": "string" },
+                "days_elapsed": { "type": "number" },
+                "detail": { "type": "string" }
+              }
+            }
+          }
+        },
+        "failure_reason": { "type": ["string", "null"], "description": "Populated only if eligible is false." },
+        "recommendation": { "type": "string", "enum": ["proceed_to_coverage_analysis", "deny", "escalate"] }
+      }
+    },
+    "out_EligibilityAnalysisSummary": {
+      "type": "string",
+      "description": "Brief plain-language explanation of the decision."
+    }
+  },
+  "title": "Outputs"
+}

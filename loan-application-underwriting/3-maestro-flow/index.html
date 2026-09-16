@@ -1,0 +1,1328 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="コーディングエージェントを使って UiPath のエージェントと Maestro オーケストレーションを構築する、実践型ハンズオン教材（日本語版）">
+      
+      
+        <meta name="author" content="Sergey Shumilov">
+      
+      
+        <link rel="canonical" href="https://uipathpartnersjpn.github.io/CodingAgentsCourse-JA/loan-application-underwriting/3-maestro-flow/">
+      
+      
+        <link rel="prev" href="../2-loan-officer-app/">
+      
+      
+        <link rel="next" href="../4-intake-enrichment/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>3. Maestro Flow によるオーケストレーション - UiPath Coding Agents ワークショップ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#maestro-flow" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="UiPath Coding Agents ワークショップ" class="md-header__button md-logo" aria-label="UiPath Coding Agents ワークショップ" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UiPath Coding Agents ワークショップ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. Maestro Flow によるオーケストレーション
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+  コーディングエージェント入門
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../agenda/" class="md-tabs__link">
+          
+  
+  
+  ローン審査（Loan Application Underwriting）
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../next-steps/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  次のステップ
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="UiPath Coding Agents ワークショップ" class="md-nav__button md-logo" aria-label="UiPath Coding Agents ワークショップ" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    UiPath Coding Agents ワークショップ
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    コーディングエージェント入門
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    コーディングエージェント入門
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/1-install-the-cli-and-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. CLI とスキルのインストール
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/2-practice-the-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. CLI を使ってみる
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/3-build-your-first-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. 初めてのエージェントを作る
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完了です！
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ローン審査（Loan Application Underwriting）
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ローン審査（Loan Application Underwriting）
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    アジェンダ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what-is-a-coding-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    コーディングエージェントとは？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation-guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    インストールガイド
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UiPath スキルのインストール
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-underwriting-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. AI による与信審査
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-loan-officer-app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. ローン担当者レビュー用ダッシュボード
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Maestro Flow によるオーケストレーション
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Maestro Flow によるオーケストレーション
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. プロジェクトフォルダーをコーディングエージェントで開く
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. プロセスの内容を説明する
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 生成されたフローをレビューする
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 生成されたフローをテストする
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 検証とパック
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. フロー全体をテストする
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4-intake-enrichment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. 申込受付とデータ補完
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完了です！
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../next-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    次のステップ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="maestro-flow">Maestro Flow によるオーケストレーション<a class="headerlink" href="#maestro-flow" title="Permanent link">&para;</a></h1>
+<p><code>uipath-maestro-flow</code> スキルを使って、コーデッドエージェントとローン担当者用ダッシュボードをつなぎ、リスクバンドに応じて申込を振り分ける UiPath Flow プロセスを生成します。</p>
+<h2 id="1">1. プロジェクトフォルダーをコーディングエージェントで開く<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><code>{YourName}LoanUnderwritingProcess</code> という名前の空のフォルダーを作成し、コーディングエージェント（Claude Code、Codex など）で開きます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span><span class="o">{</span>YourName<span class="o">}</span>LoanUnderwritingProcess
+</code></pre></div>
+<h2 id="2">2. プロセスの内容を説明する<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>フロー全体を、コーディングエージェントに平易な言葉で説明します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uipath-maestro-flow スキルを使って、{YourName}LoanUnderwritingProcess という名前の
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>UiPath Flow プロセスを構築してください。要件は次のとおりです:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>1. 6 つの入力を受け取る: loan_id、applicant_first_name、applicant_last_name、
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>   loan_amount、loan_term、income
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>2. エージェント {YourName}LoanUnderwritingAgent（CodingAgentsILT フォルダー内）を
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>   呼び出し、loan_id を渡して、返された値をプロセス変数として保持する:
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   credit_score、risk_band、assessment_summary、monthly_repayment、
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>   debt_to_income_ratio、loan_to_market_ratio
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>3. risk_band が "Low" の場合は申込を自動承認してプロセスを終了する
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>4. Medium または High の場合は、アプリ {yourname}loanofficerdashboard
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>   （CodingAgentsILT フォルダー内）を開き、12 個の入力すべて（LoanId、
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>   ApplicantFirstName、ApplicantLastName、LoanAmount、LoanTerm、YearlyIncome、
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>   CreditScore、RiskBand、AssessmentSummary、MonthlyRepayment、
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>   DebtToIncomeRatio、LoanToMarketRatio）を渡し、officer_decision を受け取る
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>5. officer_decision に基づいて Approved または Rejected で終了する
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>6. 自動承認された場合もローン担当者が判断した場合も、いずれのケースでも
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>   final_decision（string — "Approved" または "Rejected"）を出力する
+</code></pre></div>
+<p>コーディングエージェントは <code>uipath-maestro-flow</code> スキルのコンテキストを読み取り、完全なプロジェクトを生成します。</p>
+<ul>
+<li><code>{YourName}LoanUnderwritingProcess.flow</code> — すべてのノード、エッジ、変数マッピングを含むフロー定義</li>
+<li><code>project.uiproj</code> — プロジェクトマニフェスト</li>
+</ul>
+<h2 id="3">3. 生成されたフローをレビューする<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p><code>{YourName}LoanUnderwritingProcess.flow</code> をテキストエディタで開くか、コーディングエージェントに構造を説明させてください。次の内容が確認できるはずです。</p>
+<ul>
+<li>6 つのプロセス入力変数（<code>loan_id</code>、<code>applicant_first_name</code>、<code>applicant_last_name</code>、<code>loan_amount</code>、<code>loan_term</code>、<code>income</code>）を持つ <strong>Start ノード</strong></li>
+<li><code>loan_id</code> を入力として <code>{YourName}LoanUnderwritingAgent</code> を呼び出し、6 つの出力変数（<code>credit_score</code>、<code>risk_band</code>、<code>assessment_summary</code>、<code>monthly_repayment</code>、<code>debt_to_income_ratio</code>、<code>loan_to_market_ratio</code>）を受け取る <strong>Agent ノード</strong></li>
+<li><code>risk_band == "Low"</code> で分岐する <strong>Condition ノード</strong></li>
+<li><code>{yourname}loanofficerdashboard</code> に接続され、12 個の変数（<code>LoanId</code>、<code>ApplicantFirstName</code>、<code>ApplicantLastName</code>、<code>LoanAmount</code>、<code>LoanTerm</code>、<code>YearlyIncome</code>、<code>CreditScore</code>、<code>RiskBand</code>、<code>AssessmentSummary</code>、<code>MonthlyRepayment</code>、<code>DebtToIncomeRatio</code>、<code>LoanToMarketRatio</code>）がすべて入力としてマッピングされ、<code>officer_decision</code> を出力とする <strong>Human Task ノード</strong></li>
+<li><code>officer_decision == "Approve"</code> で分岐する 2 つ目の <strong>Condition ノード</strong></li>
+<li>3 つの <strong>End ノード</strong>（Auto-Approved、Approved、Rejected）</li>
+</ul>
+<p>マッピングや条件の調整が必要な場合は、コーディングエージェントに次のように依頼します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>リスクバンドの条件を修正して、既定の経路が人的レビューのノードに向かい、明示的な条件分岐のほうで
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>"Low" の自動承認ケースを処理するようにしてください。
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Studio Web でフローを可視化する</p>
+<p>生成された <code>.flow</code> ファイルは <strong>Studio Web</strong> にインポートでき、Orchestrator にデプロイする前にプロセスの図を確認したり、対話的にテストしたりできます。<strong>Studio Web</strong> を開いて新しい Flow プロジェクトを作成し、<code>{YourName}LoanUnderwritingProcess.flow</code> をインポートしてください。コーディングエージェントが生成したとおりのノード、条件、接続がキャンバスに描画されます。</p>
+</div>
+<h2 id="4">4. 生成されたフローをテストする<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>UiBank から検証済みのローンレコードを取得し、フロー用の有効なテスト入力を生成するよう、コーディングエージェントに依頼します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>UiBank の Swagger ドキュメントを開いて内容を確認してください:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>https://uibank-api.uipath.com/explorer/swagger.json
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>API に記載されているエンドポイントのみを使い、ローン見積を取得するための読み取り専用エンドポイントを
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>特定してください。GET リクエストを実行し、現在 UiBank に存在するローン見積を 1 件選んでください。
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>検証済みのローンレコードを使って、{YourName}LoanUnderwritingProcess フロー用のテスト入力を
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>生成してください。
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>要件:
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>- Swagger 仕様に記載された GET エンドポイントのみを使用すること。
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>- データの作成・更新・削除は一切行わないこと。
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>- loan_id を捏造したり、存在を確認していない ID を使い回したりしないこと。
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>- 選んだローンレコードが実在することを検証すること。
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>- loan_amount、loan_term、income は同一の検証済みレコードから設定すること。
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>- loan_term は年数を表し、1、3、5、10 のいずれかでなければならない。
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>- レコードの年収を income にマッピングすること。
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>- 申込者名はレコードにあればそれを使用すること。API が申込者名を提供しない場合は、
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>  ワークショップ用の安全な値として John と Doe を使用すること。
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>- 有効な JSON オブジェクトをちょうど 1 つだけ返すこと。
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>- Markdown、説明、コメント、PowerShell コマンドは含めないこと。
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>必須の出力形式:
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>{
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>  "loan_id": "&lt;VERIFIED_LOAN_ID&gt;",
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>  "applicant_first_name": "&lt;FIRST_NAME&gt;",
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>  "applicant_last_name": "&lt;LAST_NAME&gt;",
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>  "loan_amount": &lt;LOAN_AMOUNT&gt;,
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>  "loan_term": &lt;1_OR_3_OR_5_OR_10&gt;,
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>  "income": &lt;YEARLY_INCOME&gt;
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>}
+</code></pre></div>
+<p>コーディングエージェントは次のような結果を返すはずです。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"loan_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6a4203a1f4865600481c657b"</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"applicant_first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">"applicant_last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">"loan_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">15000</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">"loan_term"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">"income"</span><span class="p">:</span><span class="w"> </span><span class="mi">48000</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="5">5. 検証とパック<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">手動で行う場合</label><label for="__tabbed_1_2">コーディングエージェントに任せる場合</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>生成された <code>.flow</code> ファイルの親フォルダーに移動します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"parent-folder-path/to/{YourName}LoanUnderwritingProcess"</span>
+</code></pre></div>
+<p>パスは、お使いのマシン上の実際の場所に置き換えてください。</p>
+<p>パックする前に、フローを検証します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>uip<span class="w"> </span>maestro<span class="w"> </span>flow<span class="w"> </span>validate<span class="w"> </span><span class="o">{</span>YourName<span class="o">}</span>LoanUnderwritingProcess.flow
+</code></pre></div>
+<p>command not found エラーが出る場合は、maestro ツールが未インストールか、PATH に入っていない可能性があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 1. maestro-tool をインストールする（初回のみ）</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@uipath/maestro-tool<span class="w"> </span>--prefix<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.npm-global"</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># 2. PATH に追加する（新しいターミナルごとに必要。~/.zshrc に書けば恒久的）</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.npm-global/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># 毎回手順 2 を実行しなくて済むよう、次を一度だけ実行しておく:</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'export PATH="$HOME/.npm-global/bin:$PATH"'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># 3. 検証する</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>uip<span class="w"> </span>maestro<span class="w"> </span>flow<span class="w"> </span>validate<span class="w"> </span><span class="o">{</span>YourName<span class="o">}</span>LoanUnderwritingProcess.flow
+</code></pre></div>
+<p>警告があれば修正し、そのうえでパックします。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uip<span class="w"> </span>maestro<span class="w"> </span>flow<span class="w"> </span>pack<span class="w"> </span><span class="s2">"&lt;path-to-your-flow-folder&gt;/{YourName}LoanUnderwritingProcess"</span><span class="w"> </span>/tmp/dist<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.0.0<span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<p>例:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>uip<span class="w"> </span>maestro<span class="w"> </span>flow<span class="w"> </span>pack<span class="w"> </span><span class="s2">"/path/to/{YourName}LoanUnderwritingProcess/{YourName}LoanUnderwritingProcess"</span><span class="w"> </span>/tmp/dist<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.0.0<span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<p>パッケージを Orchestrator にアップロードし、<code>CodingAgentsILT</code> フォルダーにプロセスを作成します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>uip<span class="w"> </span>or<span class="w"> </span>packages<span class="w"> </span>upload<span class="w"> </span>/tmp/dist/<span class="o">{</span>YourName<span class="o">}</span>LoanUnderwritingProcess.flow.Flow.1.0.0.nupkg<span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<p>例:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>uip<span class="w"> </span>or<span class="w"> </span>packages<span class="w"> </span>upload<span class="w"> </span>/tmp/dist/MadalinaLoanUnderwritingProcess.flow.Flow.1.0.0.nupkg<span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<p>command not found エラーが出る場合は、maestro ツールが未インストールか、PATH に入っていない可能性があります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># 1. maestro-tool をインストールする（初回のみ）</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@uipath/maestro-tool<span class="w"> </span>--prefix<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.npm-global"</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># 2. PATH に追加する（新しいターミナルごとに必要。~/.zshrc に書けば恒久的）</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.npm-global/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># 毎回手順 2 を実行しなくて済むよう、次を一度だけ実行しておく:</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'export PATH="$HOME/.npm-global/bin:$PATH"'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># 3. アップロードを再実行する</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>uip<span class="w"> </span>or<span class="w"> </span>packages<span class="w"> </span>upload<span class="w"> </span>/tmp/dist/<span class="o">{</span>YourName<span class="o">}</span>LoanUnderwritingProcess.flow.Flow.1.0.0.nupkg<span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<p>そのうえでプロセスを作成します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>uip<span class="w"> </span>or<span class="w"> </span>processes<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingProcess"</span><span class="w"> </span>--package-key<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingProcess.flow.Flow"</span><span class="w"> </span>--package-version<span class="w"> </span><span class="s2">"1.0.0"</span><span class="w"> </span>--folder-key<span class="w"> </span><span class="s2">"c30345cd-5543-46a9-b42b-0354e60b4f15"</span><span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<p>例:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>uip<span class="w"> </span>or<span class="w"> </span>processes<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="s2">"MadalinaLoanUnderwritingProcess"</span><span class="w"> </span>--package-key<span class="w"> </span><span class="s2">"MadalinaLoanUnderwritingProcess.flow.Flow"</span><span class="w"> </span>--package-version<span class="w"> </span><span class="s2">"1.0.0"</span><span class="w"> </span>--folder-key<span class="w"> </span><span class="s2">"c30345cd-5543-46a9-b42b-0354e60b4f15"</span><span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>次のプロンプトをコーディングエージェントに渡してください。検証・公開・デプロイまでを代行してくれます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>いま構築した {YourName}LoanUnderwritingProcess の Maestro フローを公開してデプロイしてください。
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>1. 生成された .flow ファイルを見つけて検証し、報告された警告があれば修正してください。
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>2. Orchestrator の CodingAgentsILT フォルダー
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>   （folder-key c30345cd-5543-46a9-b42b-0354e60b4f15）に、バージョン 1.0.0 として公開してください。
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>3. 同じフォルダー内で、公開したパッケージからプロセスを作成してデプロイしてください。
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>4. プロセスキーを報告してください。
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="6">6. フロー全体をテストする<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<p>Orchestrator からプロセスを 3 回起動します。下記の申込者ごとに 1 回ずつです。各 <code>loan_id</code> は UiBank に実在する検証済みのレコードです（エージェントはこのレコードを再取得してスコアリングするため、下記の金額・期間・収入はレコードの内容と一致しています）。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span><span class="nt">"loan_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6a8dabd21feca3004834197a"</span><span class="p">,</span><span class="w"> </span><span class="nt">"applicant_first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Alice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"applicant_last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nguyen"</span><span class="p">,</span><span class="w"> </span><span class="nt">"loan_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">25001</span><span class="p">,</span><span class="w"> </span><span class="nt">"loan_term"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">"income"</span><span class="p">:</span><span class="w"> </span><span class="mi">80000</span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">{</span><span class="nt">"loan_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6a8c0bb11feca300483416cb"</span><span class="p">,</span><span class="w"> </span><span class="nt">"applicant_first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ben"</span><span class="p">,</span><span class="w"> </span><span class="nt">"applicant_last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Carter"</span><span class="p">,</span><span class="w"> </span><span class="nt">"loan_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span><span class="w"> </span><span class="nt">"loan_term"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nt">"income"</span><span class="p">:</span><span class="w"> </span><span class="mi">30000</span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span><span class="nt">"loan_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6a8db0e11feca30048341981"</span><span class="p">,</span><span class="w"> </span><span class="nt">"applicant_first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Clara"</span><span class="p">,</span><span class="w"> </span><span class="nt">"applicant_last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Osei"</span><span class="p">,</span><span class="w"> </span><span class="nt">"loan_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">12000</span><span class="p">,</span><span class="w"> </span><span class="nt">"loan_term"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nt">"income"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">}</span>
+</code></pre></div>
+<p>これらの ID は共有の UiBank サンドボックス上の実データを指しており、本レッスン作成時点で実在が確認されています。また、債務所得比率によって各バンドがはっきり分かれるように選ばれています（Alice 約 10%（Low）、Ben 約 40%（Medium）、Clara 約 100%（High））。UiBank のデータがリセットされた場合は、手順 4 の Swagger による検索を使って、同様に差がはっきり出る新しいレコードを 3 件探してください。スコアリングは LLM によるものなので、新しいレコードを使う前には必ず再実行して、得られた <code>risk_band</code> を確認してください。</p>
+<table>
+<thead>
+<tr>
+<th>申込者</th>
+<th>想定される経路</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alice — 少額のローン、十分な収入</td>
+<td>低リスク → 自動承認、人的タスクなし</td>
+</tr>
+<tr>
+<td>Ben — 高額のローン、長い借入期間</td>
+<td>中リスク → Action Center に人的タスクが発生</td>
+</tr>
+<tr>
+<td>Clara — 若年、収入が厳しい</td>
+<td>高リスク → Action Center に人的タスクが発生</td>
+</tr>
+</tbody>
+</table>
+<p>Ben と Clara については、プロセスが一時停止している間に <strong>Action Center</strong> を開いてください。クレジットスコアとリスクバンドがあらかじめ入力された状態で、ローン担当者用ダッシュボードが表示されるはずです。判断を送信し、フローが対応する終了状態へ進むことを確認しましょう。</p>
+<div class="admonition tip">
+<p class="admonition-title">実行トレースを確認する</p>
+<p>Orchestrator では、実行中のフローインスタンスをクリックすると、アクティブなノードがハイライトされたライブの図を確認できます。各条件分岐が正しく振り分けられているかを確かめるには、これが最速の方法です。</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="フッター" >
+        
+          
+          <a href="../2-loan-officer-app/" class="md-footer__link md-footer__link--prev" aria-label="前: 2. ローン担当者レビュー用ダッシュボード">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                前
+              </span>
+              <div class="md-ellipsis">
+                2. ローン担当者レビュー用ダッシュボード
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../4-intake-enrichment/" class="md-footer__link md-footer__link--next" aria-label="次: 4. 申込受付とデータ補完">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                次
+              </span>
+              <div class="md-ellipsis">
+                4. 申込受付とデータ補完
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

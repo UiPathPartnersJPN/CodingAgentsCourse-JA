@@ -1,0 +1,271 @@
+/* UiPath brand fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&display=swap');
+
+/* ── 日本語フォント（Meiryo UI）─────────────────────────────────────────────
+   欧文は UiPath ブランドの Inter / Nunito を維持し、日本語グリフのみ
+   Meiryo UI で表示されるようフォントスタックを構成しています。
+   Meiryo UI は Windows 標準フォントのため、macOS / Linux 向けに
+   ヒラギノ角ゴ・Noto Sans JP をフォールバックとして指定します。      */
+:root {
+  --jp-font-stack: 'Meiryo UI', 'Meiryo', 'メイリオ',
+                   'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+                   'Yu Gothic UI', 'Noto Sans JP', 'Noto Sans CJK JP', sans-serif;
+
+  --md-text-font-family: 'Inter', var(--jp-font-stack);
+  --md-code-font-family: 'Roboto Mono', 'Meiryo UI', 'Consolas', 'Menlo', monospace;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  font-family: 'Nunito', var(--jp-font-stack);
+}
+
+/* 日本語は字面が大きいため、行間をやや広めに取って可読性を確保 */
+.md-typeset {
+  line-height: 1.75;
+}
+
+.md-typeset li {
+  line-height: 1.75;
+}
+
+/* 日本語の見出しは字間を詰めない（Nunito 由来の負トラッキングを打ち消す） */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  letter-spacing: 0;
+}
+
+/* UiPath Robotic Orange — override Material primary color */
+:root {
+  --md-primary-fg-color: #FA4616;
+  --md-primary-fg-color--light: #fc7a52;
+  --md-primary-fg-color--dark: #d13a12;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+}
+
+/* White header bar — logo + site title area only; tabs remain orange */
+.md-header {
+  background-color: #ffffff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.md-header__title,
+.md-header__topic,
+.md-ellipsis {
+  color: #1a1a1a;
+  font-family: 'Nunito', var(--jp-font-stack);
+}
+
+.md-header__button,
+.md-header__button.md-logo {
+  color: #1a1a1a;
+}
+
+.md-header__button:hover {
+  color: #000000;
+  opacity: 1;
+}
+
+/* Scale the logo to a comfortable height in the header */
+.md-header__button.md-logo img {
+  height: 1.4rem;
+  width: auto;
+}
+
+/* ── Mobile drawer (hamburger menu) ─────────────────────────────────────── */
+@media screen and (max-width: 76.1875em) {
+
+  /* White background for the drawer header area (was orange) */
+  .md-nav--primary > .md-nav__title {
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    /* Allow the site title to wrap instead of truncating */
+    white-space: normal;
+    height: auto;
+    min-height: 3.4rem;
+    line-height: 1.3;
+    padding-bottom: 1rem;
+  }
+
+  /* Cover any parent container that bleeds orange behind the title */
+  .md-sidebar--primary .md-sidebar__scrollwrap {
+    background-color: #ffffff;
+  }
+
+  /* Back-arrow / logo button colour inside the drawer title */
+  .md-nav--primary > .md-nav__title .md-nav__button {
+    color: #1a1a1a !important;
+  }
+
+  /* Logo size inside the drawer */
+  .md-nav--primary > .md-nav__title .md-logo img {
+    height: 1.6rem;
+    width: auto;
+  }
+
+  /* Nav item links — 20% smaller than body text in hamburger menu */
+  .md-nav--primary .md-nav__link {
+    font-size: 0.8rem;
+  }
+}
+
+
+/* Hide empty footer meta bar */
+.md-footer-meta {
+  display: none;
+}
+
+/* Footer navigation — compact height (-25%) */
+.md-footer__link {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Footer navigation — white text on dark background */
+.md-footer__link,
+.md-footer__title,
+.md-footer__direction,
+.md-footer .md-ellipsis {
+  color: #ffffff !important;
+}
+
+/* Image utilities */
+
+/* Center an image: ![alt](img.png){ .center } */
+img.center {
+  display: block;
+  margin: 1.5rem auto;
+}
+
+/* Bordered screenshot: ![alt](img.png){ .screenshot } */
+img.screenshot {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  display: block;
+  margin: 1.5rem auto;
+}
+
+/* Figure caption — place italic text on the line directly after an image */
+img + em {
+  display: block;
+  text-align: center;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.85rem;
+  margin-top: -0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Two-column image grid
+   Named shortcuts:  .img-cols-50 (50/50)  .img-cols-30 (30/70)  .img-cols-70 (70/30)
+   Generic split via CSS vars: <div class="img-cols" style="--col1:2;--col2:5" …>   */
+.img-cols {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 1.5rem 0;
+  padding: 0 1.5rem;
+}
+
+.img-cols > div {
+  min-width: 0;
+}
+
+.img-cols > div img {
+  width: 90%;
+  margin: 0 auto 0.5rem !important;
+}
+
+/* Admonition styling — match body text size */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: 1em;
+}
+
+/* Admonition — UiPath brand colors */
+
+/* note (Dark Blue #1E6482) */
+.md-typeset .admonition.note  {
+  border-color: rgba(30, 100, 130, 0.4) !important;
+  background-color: rgba(30, 100, 130, 0.05) !important;
+}
+.md-typeset .note > .admonition-title { background-color: rgba(30, 100, 130, 0.12) !important; }
+.md-typeset .note > .admonition-title::before { background-color: #1E6482 !important; }
+
+/* info (Dark Blue #1E6482 — prominent) */
+.md-typeset .admonition.info  {
+  border-color: rgba(30, 100, 130, 0.4) !important;
+  background-color: rgba(30, 100, 130, 0.07) !important;
+}
+.md-typeset .info > .admonition-title { background-color: rgba(30, 100, 130, 0.20) !important; }
+.md-typeset .info > .admonition-title::before { background-color: #1E6482 !important; }
+
+/* tip (Bright Blue #CCF2FF + Dark Blue accent) */
+.md-typeset .admonition.tip   {
+  border-color: rgba(30, 100, 130, 0.4) !important;
+  background-color: rgba(204, 242, 255, 0.45) !important;
+}
+.md-typeset .tip > .admonition-title  { background-color: rgba(30, 100, 130, 0.15) !important; }
+.md-typeset .tip > .admonition-title::before  { background-color: #1E6482 !important; }
+
+/* warning (Offset Orange #A32200) */
+.md-typeset .admonition.warning {
+  border-color: rgba(163, 34, 0, 0.4) !important;
+  background-color: rgba(163, 34, 0, 0.05) !important;
+}
+.md-typeset .warning > .admonition-title { background-color: rgba(163, 34, 0, 0.15) !important; }
+.md-typeset .warning > .admonition-title::before { background-color: #A32200 !important; }
+
+/* Flex ratios come from CSS custom properties set by named shortcuts or inline style */
+.img-cols > div:first-child { flex: var(--col1, 1); }
+.img-cols > div:last-child  { flex: var(--col2, 1); }
+
+.img-cols-50 { --col1: 1; --col2: 1; }
+.img-cols-30 { --col1: 3; --col2: 7; }
+.img-cols-70 { --col1: 7; --col2: 3; }
+
+/* Top-level navigation tabs — 20% larger than Material default (0.7rem) */
+.md-tabs__link {
+  font-size: 0.84rem;
+  font-family: 'Nunito', var(--jp-font-stack);
+}
+
+/* Left sidebar navigation — explicit Inter + Meiryo UI (inherits body font, but made explicit) */
+.md-nav__link,
+.md-nav__title {
+  font-family: 'Inter', var(--jp-font-stack);
+}
+
+/* Code blocks — 10% smaller font, wrap long lines */
+.md-typeset pre {
+  font-size: 0.9em;
+}
+
+.md-typeset pre > code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Table — body text size, full borders, grey header */
+.md-typeset table:not([class]) {
+  border-collapse: collapse;
+}
+
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
+  font-size: 0.8rem !important;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: #f0f0f0;
+}
