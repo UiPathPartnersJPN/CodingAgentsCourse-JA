@@ -1,17 +1,18 @@
 # コーディングエージェントとは？
+
 コーディングエージェントの仕組みと、UiPath の自動化開発においてなぜ有用なのかを学びます。
 
 コーディングエージェントとは、コードを読み、書き、その意味を推論する AI アシスタントです。単なる入力補完ではありません。次の 1 行を提案するのではなく、平易な言葉で書かれたゴールを理解し、コードベースを調べ、判断を下し、動作するコンポーネントをまるごと生成します。主導権はあなたにあります。生成物をレビューし、修正を指示し、納得できるまで反復します。
 
 現在はいくつものコーディングエージェントが利用でき、それぞれに強みがあります。
 
-- **Claude Code** — Anthropic の CLI ベースのエージェント。ターミナル上で動作し、ファイルシステムと深く統合されています。本演習で使用するのはこれです。
+- **Claude Code** — Anthropic の CLI ベースのエージェント。ターミナル上で動作し、ファイルシステムと深く統合されています。本コースで使用するのはこれです。
 - **Codex CLI** — OpenAI のコマンドライン型コーディングエージェント。同じくターミナル中心のアプローチです。
 - **Cursor** — AI を中心に設計された IDE。エディタとの統合が密で、インライン生成や複数ファイルにまたがるコンテキストに強みがあります。
 - **Gemini CLI** — Google のターミナル型エージェント。推論能力とロングコンテキストに強みがあります。
 - **GitHub Copilot Agent** — VS Code と JetBrains に組み込まれ、エディタ内で完結するワークフローに適しています。
 
-コーディングエージェントが UiPath の開発において特に強力になるのは、スキルのレイヤーがあるからです。UiPath のアクティビティ、API、プロジェクトの作法といったドメイン知識を読み込ませることで、エージェントは汎用的なひな型ではなく、本番で使える自動化コードを生成できるようになります。本演習で使う UiPath スキルは、まさにそのためのものです。
+コーディングエージェントが UiPath の開発において特に強力になるのは、スキルのレイヤーがあるからです。UiPath のアクティビティ、API、プロジェクトの作法といったドメイン知識を読み込ませることで、エージェントは汎用的なひな型ではなく、本番で使える自動化コードを生成できるようになります。本コースで使う UiPath スキルは、まさにそのためのものです。
 
 ## 全体像（The Mental Model）
 
@@ -26,7 +27,7 @@
 | **Subagents（サブエージェント）** | メインのエージェントが起動する専門のワーカー。複雑なタスクを並列化したり、切り離して処理したりするために使います。 |
 
 !!! info "プラグイン（Plugins）"
-    プラグインは、これらをまとめてパッケージ化したものです。コーディングエージェント向けの Marketplace アプリのようなものと考えてください。本演習で使う UiPath スキルもプラグインです。
+    プラグインは、これらをまとめてパッケージ化したものです。コーディングエージェント向けの Marketplace アプリのようなものと考えてください。本コースで使う UiPath スキルもプラグインです。
 
 ## ツールの実際
 
@@ -51,40 +52,17 @@ Claude Code の組み込みツールは常に利用可能で、セットアッ�
 
 ## スキルの実際
 
-スキルは 1 つのフォルダーです。`.claude/skills/`（または同等の場所）に置かれ、中に `SKILL.md` が入っています。
+スキルは 1 つのフォルダーです。中に `SKILL.md`（エージェントによっては `CLAUDE.md`）が入っています。
 
 | 特性 | 意味 |
 |---|---|
-| **自動的に検出される** | エージェントは各 `SKILL.md` の description を読みます。あなたのプロンプトと合致したときに、必要に応じてスキル全体を読み込みます。 |
+| **自動的に検出される** | エージェントは各スキルの description を読みます。あなたのプロンプトと合致したときに、必要に応じてスキル全体を読み込みます。 |
 | **テキストだけではない** | スキルには、リファレンス文書、コードパターン、補助スクリプト、さらにはエージェントが実行できるコンパイル済みバイナリまで同梱できます。 |
 | **権限が限定される** | スキルは、使用を許可されたツールを宣言します。Bash へのアクセスも細かく制御できます。 |
 
-### SKILL.md ファイルの中身
+### スキルファイルの構成
 
-どのスキルも、1 つの `SKILL.md` ファイルを中心に構成されています。実際の例を見てみましょう。
-
-```yaml
----
-name: uipath-coded-agents
-description: Scaffold, build, run, evaluate, and deploy UiPath coded agents...
-allowed-tools: [Read, Edit, Bash(uip:*), Bash(uipath:*)]
----
-
-# How to build a UiPath coded agent
-
-When the user asks for a new coded agent:
-
-1. Run `uipath new --framework langgraph`
-2. Create agent.py following the pattern in references/
-3. Add an evals/ folder with at least 5 test cases
-4. Run `uipath eval` before deploying
-
-## References
-- references/sdk-methods.md
-- references/langgraph-patterns.md
-```
-
-このファイルは 4 つのパートで構成されています。
+どのスキルも、1 つの Markdown ファイルを中心に構成されています。構造はおおむね次の 4 パートです。
 
 | パート | 役割 |
 |---|---|
@@ -93,12 +71,29 @@ When the user asks for a new coded agent:
 | **手順（Instructions）** | ファイルの本文。スキルが有効なときにエージェントが従う、ステップバイステップのプロンプトです。 |
 | **リファレンス（References）** | より深いコンテキスト（API ドキュメント、コードパターン、サンプルプロジェクトなど）としてエージェントが読めるファイルへのパスです。 |
 
+!!! tip "実物を見てみましょう"
+    スキルをインストールすると、実際のファイルがローカルに展開されます。次のレッスンでインストールしたあと、中を覗いてみてください。
+
+    === "Windows (PowerShell)"
+        ```powershell
+        Get-ChildItem "$env:USERPROFILE\.uipath\.skills\skills"
+        Get-Content "$env:USERPROFILE\.uipath\.skills\skills\uipath-agents\SKILL.md" -TotalCount 40
+        ```
+
+    === "Mac / Linux"
+        ```bash
+        ls ~/.uipath/.skills/skills
+        head -40 ~/.uipath/.skills/skills/uipath-agents/SKILL.md
+        ```
+
+    実際のスキルは、ここで示した 4 パートの構造に、**リファレンス文書へのルーティング表**や**やってはいけないことの一覧**が加わった、かなり長いものです。「エージェントに何をどこまで指示しておくべきか」の実例として参考になります。
+
 ## この構図における UiPath の位置づけ
 
 UiPath は Claude Code 向けのプラグインを提供しています。スキル、フック、リファレンスがまとめられており、UiPath 製品に関するドメイン知識を最初からエージェントに与えられます。
 
 ```bash
-npm -g install @uipath/cli
+npm install -g @uipath/cli
 uip skills install
 ```
 
@@ -106,23 +101,33 @@ uip skills install
 
 | 内容 | 詳細 |
 |---|---|
-| **10 以上のスキル** | UiPath の各製品に対応したドメイン知識: `uipath-agents`、`uipath-coded-apps`、`uipath-rpa`、`uipath-maestro-flow`、`uipath-platform`、`uipath-test` など。 |
-| **1 つのサブエージェント** | `uipath-project-discovery-agent` — UiPath プロジェクトに最初に触れたときに自動実行され、エージェント向けのコンテキストを構築します。 |
-| **フックとリファレンス** | セッション開始時のガイド、アクティビティのドキュメント、安全な読み取り専用コマンドの許可リストなど。 |
+| **多数のスキル** | UiPath の各製品に対応したドメイン知識: `uipath-agents`、`uipath-coded-apps`、`uipath-rpa`、`uipath-maestro-flow`、`uipath-platform`、`uipath-test` など |
+| **サブエージェント** | `uipath-project-discovery-agent` — UiPath プロジェクトに最初に触れたときに自動実行され、エージェント向けのコンテキストを構築します |
+| **フックとリファレンス** | セッション開始時のガイド、アクティビティのドキュメント、安全な読み取り専用コマンドの許可リストなど |
 
 ## UiPath スキルカタログ
 
-このプラグインには、UiPath プラットフォームのあらゆる領域に対応するスキルが含まれています。本演習のラボでは、そのうち 3 つを使用します。
+プラグインには、UiPath プラットフォームのあらゆる領域に対応するスキルが含まれています。
 
-| スキル | 説明 |
+!!! note "一覧は変わります"
+    スキルは追加・統合されていくため、ここに固定の一覧は載せていません。**インストール後に自分で確認してください。**
+
+    ```bash
+    uip skills list
+    ```
+
+本コースで使うのは次の **4 つ**です。
+
+| スキル | 使うレッスン |
 |---|---|
-| **`uipath-agents`** | コーデッドエージェント（LangGraph、LlamaIndex、OpenAI Agents）のスキャフォールド、ビルド、実行、評価、デプロイ |
-| **`uipath-rpa`** | Studio Desktop 向けの RPA ワークフロー（XAML）を、まず調査するアプローチで生成・編集 |
-| **`uipath-coded-apps`** | TypeScript + React アプリの Studio Web へのプッシュ／プル、Orchestrator へのパック＆パブリッシュ |
-| `uipath-solution` | ソリューションの作成とデプロイ |
-| `uipath-maestro-flow` | .flow JSON 形式を使った UiPath Flow プロジェクトの作成、検証、デバッグ |
-| `uipath-platform` | 認証、Orchestrator の管理、ソリューションのライフサイクル、Integration Service、CLI ツール |
-| `uipath-test` | UiPath プロジェクト向けの自動テストスイートの生成、実行、保守 |
+| **`uipath-agents`** | 第1部 レッスン3（ローコードエージェント）/ 第2部 レッスン1（コーデッドエージェント） |
+| **`uipath-coded-apps`** | 第2部 レッスン2（ローン担当者ダッシュボード） |
+| **`uipath-maestro-flow`** | 第2部 レッスン3（Maestro フロー） |
+| **`uipath-rpa`** | 第2部 レッスン4（RPA ワークフロー） |
 
-!!! tip "本演習で使うスキル"
-    太字の 3 つ（`uipath-agents`、`uipath-rpa`、`uipath-coded-apps`）が、ローン審査パイプラインの構築に使うスキルです。
+そのほかによく使うものとして、認証や Orchestrator 管理を扱う `uipath-platform`、ソリューションのライフサイクルを扱う `uipath-solution`、テストスイートを生成する `uipath-test` などがあります。
+
+!!! tip "スキルは自分で呼ばなくても読み込まれます"
+    「Maestro フローを作って」と頼めば、コーディングエージェントが自分で `uipath-maestro-flow` を読み込みます。**スキル名を覚えておく必要はありません。**
+
+    ただし、意図したスキルが使われていないと感じたときは、プロンプトにスキル名を書いて明示的に指定することもできます。本コースの各レッスンのプロンプトでは、確実性のためにスキル名を書いている箇所があります。
